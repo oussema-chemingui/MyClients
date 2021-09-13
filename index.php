@@ -1,4 +1,5 @@
 <?php
+include('session.php');
 include('header.php');
 include('db.php');
 ?>
@@ -11,6 +12,9 @@ $results = mysqli_query($db, $sql);
 <div class='container'>
     <table class="table caption-top">
         <h2>Liste des clients</h2>
+        <div class="float-right">Bonjour,<?php echo $_SESSION['username']; ?>/<a href="logout.php">Déconnexion</a>
+            <br>
+        </div>
         <thead>
             <tr>
 
@@ -34,58 +38,58 @@ $results = mysqli_query($db, $sql);
                     <td><?php echo $result['description']; ?></td>
                     <td><?php echo $result['created']; ?></td>
                     <td>
-                    <a href="view.php?id=<?php echo $result['id']; ?>"><button class="btn btn-outline-success ">Afficher</button></a>
+                        <a href="view.php?id=<?php echo $result['id']; ?>"><button class="btn btn-outline-success ">Afficher</button></a>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $result['id']; ?>">Modifier</button>
-                        <button class="btn btn-danger ">Supprimer</button>
+                        <a onclick="return confirm('Supprimer le client définitivement ?')" href="delete.php?id=<?php echo $result['id']; ?>"><button class="btn btn-danger ">Supprimer</button></a>
                     </td>
                 </tr>
                 <div class="modal fade" id="exampleModal<?php echo $result['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                    <div class="modal-dialog" role="document">
-    <form  action="update.php" method="POST">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modifier client</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <input type="hidden" name="id" value="<?php echo $result['id']; ?>">
-                                    <label>Nom</label>
-                                    <input type="text" name="name" class="form-control" value="<?php echo $result['name']; ?>">
-                                </div>
+                        <div class="modal-dialog" role="document">
+                            <form action="update.php" method="POST">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modifier client</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input type="hidden" name="id" value="<?php echo $result['id']; ?>">
+                                            <label>Nom</label>
+                                            <input type="text" name="name" class="form-control" value="<?php echo $result['name']; ?>">
+                                        </div>
 
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="text" name="email" class="form-control" value="<?php echo $result['email']; ?>">
-                                </div>
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="text" name="email" class="form-control" value="<?php echo $result['email']; ?>">
+                                        </div>
 
-                                <div class="form-group">
-                                    <label>Numéro de télephone</label>
-                                    <input type="text" name="phone" class="form-control" value="<?php echo $result['phone']; ?>">
-                                </div>
+                                        <div class="form-group">
+                                            <label>Numéro de télephone</label>
+                                            <input type="text" name="phone" class="form-control" value="<?php echo $result['phone']; ?>">
+                                        </div>
 
-                                <div class="form-group">
-                                    <label>Addresse</label>
-                                    <input type="text" name="address" class="form-control" value="<?php echo $result['address']; ?>">
-                                </div>
+                                        <div class="form-group">
+                                            <label>Addresse</label>
+                                            <input type="text" name="address" class="form-control" value="<?php echo $result['address']; ?>">
+                                        </div>
 
-                                <div class="form-group">
-                                    <label>Déscription</label>
-                                    <textarea name="description" class="form-control">
+                                        <div class="form-group">
+                                            <label>Déscription</label>
+                                            <textarea name="description" class="form-control">
                                        <?php echo $result['description']; ?>
                                     </textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                        <button type="submit" id="update" class="btn btn-primary">Enregistrer</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                <button type="submit" id="update" class="btn btn-primary">Enregistrer</button>
-                            </div>
                         </div>
-                    </div>
-                    </form>
+                        </form>
 
-</div>
+                    </div>
                 </div>
             <?php } ?>
         </tbody>

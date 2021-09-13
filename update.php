@@ -12,7 +12,7 @@ $result = mysqli_query($db,"update clients set name='$name', email='$email', pho
 
 if($result==true){
 	session_start();
-	$_SESSION['message']='Informations client modifier';
+	$_SESSION['message']='Modification éffectuer';
 	header('location:index.php');
 }
 ?>

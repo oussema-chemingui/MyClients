@@ -1,6 +1,5 @@
 <?php
-session_start();
-
+include('session.php');
 include('db.php');
 include('header.php')
 ?>
